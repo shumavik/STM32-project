@@ -1,0 +1,27 @@
+--cpu=Cortex-M4.fp
+"can_loopback\startup_stm32f429xx.o"
+"can_loopback\main.o"
+"can_loopback\stm32f4xx_it.o"
+"can_loopback\stm32f4xx_hal_msp.o"
+"can_loopback\stm32f4xx_hal_can.o"
+"can_loopback\stm32f4xx_hal_tim.o"
+"can_loopback\stm32f4xx_hal_tim_ex.o"
+"can_loopback\stm32f4xx_hal_usart.o"
+"can_loopback\stm32f4xx_hal_rcc.o"
+"can_loopback\stm32f4xx_hal_rcc_ex.o"
+"can_loopback\stm32f4xx_hal_flash.o"
+"can_loopback\stm32f4xx_hal_flash_ex.o"
+"can_loopback\stm32f4xx_hal_flash_ramfunc.o"
+"can_loopback\stm32f4xx_hal_gpio.o"
+"can_loopback\stm32f4xx_hal_dma_ex.o"
+"can_loopback\stm32f4xx_hal_dma.o"
+"can_loopback\stm32f4xx_hal_pwr.o"
+"can_loopback\stm32f4xx_hal_pwr_ex.o"
+"can_loopback\stm32f4xx_hal_cortex.o"
+"can_loopback\stm32f4xx_hal.o"
+"can_loopback\stm32f4xx_hal_exti.o"
+"can_loopback\system_stm32f4xx.o"
+--library_type=microlib --strict --scatter "CAN_loopback\CAN_loopback.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "CAN_loopback.map" -o CAN_loopback\CAN_loopback.axf
