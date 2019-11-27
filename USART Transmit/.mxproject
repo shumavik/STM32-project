@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/artur/Desktop/STM32/Cube/USART/Inc
+HeaderPath=C:/Users/artur/Desktop/STM32/Cube/USART Transmit/Inc
 HeaderFiles=stm32l1xx_it.h;stm32l1xx_hal_conf.h;main.h;
-SourcePath=C:/Users/artur/Desktop/STM32/Cube/USART/Src
+SourcePath=C:/Users/artur/Desktop/STM32/Cube/USART Transmit/Src
 SourceFiles=stm32l1xx_it.c;stm32l1xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]

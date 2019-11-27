@@ -124,6 +124,7 @@ int main(void)
 									{
 													
 									}
+						//HAL_I2C_Master_Transmit(&hi2c1, 2, strReceive, 14, 1500);
 						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
 						
 					}

@@ -44,7 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 CAN_HandleTypeDef hcan1;
 
-USART_HandleTypeDef husart1;
+USART_HandleTypeDef husart2;
 
 /* USER CODE BEGIN PV */
 //uint8_t strReceive[5] = {0};
@@ -59,7 +59,7 @@ CAN_RxHeaderTypeDef RxHeader;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_CAN1_Init(void);
-static void MX_USART1_Init(void);
+static void MX_USART2_Init(void);
 /* USER CODE BEGIN PFP */
 void CAN1_Tx(void);
 /* USER CODE END PFP */
@@ -68,9 +68,9 @@ void CAN1_Tx(void);
 /* USER CODE BEGIN 0 */
 void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
 {
-	if (husart == &husart1)
+	if (husart == &husart2)
 	{
-		if (husart1.RxXferCount == 0)
+		if (husart2.RxXferCount == 0)
 		{
 			flag_USART = 1;
 		}
@@ -119,7 +119,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CAN1_Init();
-  MX_USART1_Init();
+  MX_USART2_Init();
   /* USER CODE BEGIN 2 */
 	// Настройка фильтра приема
 	sFilterConfig.FilterBank = 0; // Выбор банка (всего банков 14)
@@ -134,8 +134,8 @@ int main(void)
 	
 	HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig); // Применение настройки фильтра для CAN1
 	
-	HAL_CAN_Start(&hcan1);
-	HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+	//HAL_CAN_Start(&hcan1);
+	//HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 	
   /* USER CODE END 2 */
 
@@ -143,23 +143,26 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		HAL_USART_Receive_IT(&husart1, strReceive, 14);
+		//HAL_USART_Receive(&husart2, strReceive, 14, 1500);
+		HAL_USART_Receive_IT(&husart2, strReceive, 14);
+		//HAL_USART_Receive_IT(&husart2, strReceive, 14);
+		//HAL_USART_Receive(&husart1, strReceive, 14, 1500);
 		if (flag_USART == 1)
 		{
 			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
 			HAL_Delay(2000);
 			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
-			CAN1_Tx();
+			//CAN1_Tx();
 			flag_USART = 0;
 		}
-		/*if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
+		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
 		{
 			HAL_Delay(500);
 			if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 0)
 			{
 				CAN1_Tx();
 			}
-		}*/
+		}
 		if (flag == 1)
 		{
 			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
@@ -167,7 +170,8 @@ int main(void)
 			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
 			flag = 0;
 		}
-		//HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive);
+		HAL_Delay(100);
+		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive);
 		
 		
 		
@@ -206,7 +210,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
@@ -254,36 +258,36 @@ static void MX_CAN1_Init(void)
 }
 
 /**
-  * @brief USART1 Initialization Function
+  * @brief USART2 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_USART1_Init(void)
+static void MX_USART2_Init(void)
 {
 
-  /* USER CODE BEGIN USART1_Init 0 */
+  /* USER CODE BEGIN USART2_Init 0 */
 
-  /* USER CODE END USART1_Init 0 */
+  /* USER CODE END USART2_Init 0 */
 
-  /* USER CODE BEGIN USART1_Init 1 */
+  /* USER CODE BEGIN USART2_Init 1 */
 
-  /* USER CODE END USART1_Init 1 */
-  husart1.Instance = USART1;
-  husart1.Init.BaudRate = 115200;
-  husart1.Init.WordLength = USART_WORDLENGTH_8B;
-  husart1.Init.StopBits = USART_STOPBITS_1;
-  husart1.Init.Parity = USART_PARITY_NONE;
-  husart1.Init.Mode = USART_MODE_RX;
-  husart1.Init.CLKPolarity = USART_POLARITY_LOW;
-  husart1.Init.CLKPhase = USART_PHASE_1EDGE;
-  husart1.Init.CLKLastBit = USART_LASTBIT_DISABLE;
-  if (HAL_USART_Init(&husart1) != HAL_OK)
+  /* USER CODE END USART2_Init 1 */
+  husart2.Instance = USART2;
+  husart2.Init.BaudRate = 115200;
+  husart2.Init.WordLength = USART_WORDLENGTH_8B;
+  husart2.Init.StopBits = USART_STOPBITS_1;
+  husart2.Init.Parity = USART_PARITY_NONE;
+  husart2.Init.Mode = USART_MODE_TX_RX;
+  husart2.Init.CLKPolarity = USART_POLARITY_LOW;
+  husart2.Init.CLKPhase = USART_PHASE_1EDGE;
+  husart2.Init.CLKLastBit = USART_LASTBIT_DISABLE;
+  if (HAL_USART_Init(&husart2) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART1_Init 2 */
+  /* USER CODE BEGIN USART2_Init 2 */
 
-  /* USER CODE END USART1_Init 2 */
+  /* USER CODE END USART2_Init 2 */
 
 }
 

@@ -3,7 +3,6 @@
 "spi transmit\main.o"
 "spi transmit\stm32f4xx_it.o"
 "spi transmit\stm32f4xx_hal_msp.o"
-"spi transmit\stm32f4xx_hal_can.o"
 "spi transmit\stm32f4xx_hal_spi.o"
 "spi transmit\stm32f4xx_hal_tim.o"
 "spi transmit\stm32f4xx_hal_tim_ex.o"

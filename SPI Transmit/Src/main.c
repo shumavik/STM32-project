@@ -42,34 +42,31 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-CAN_HandleTypeDef hcan1;
-
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
 uint8_t strTransmit[] = "HELLO WORLD!\r\n";
 uint8_t strReceive[8] = {0};
 int flag = 0;
-CAN_RxHeaderTypeDef RxHeader;
-CAN_FilterTypeDef sFilterConfig;
+//CAN_RxHeaderTypeDef RxHeader;
+//CAN_FilterTypeDef sFilterConfig;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
-static void MX_CAN1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+/*void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
 	HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive);
 	flag = 1;
-}
+}*/
 /* USER CODE END 0 */
 
 /**
@@ -102,11 +99,10 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
-  MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
 	
 	// Настройка фильтра приема
-	sFilterConfig.FilterBank = 0; // Выбор банка (всего банков 14)
+	/*sFilterConfig.FilterBank = 0; // Выбор банка (всего банков 14)
 	sFilterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0; // Привязка буфера на прием
 	sFilterConfig.FilterIdHigh = 0x245<<5; // Максимальный ID сообщения в списке 
 	sFilterConfig.FilterIdLow = 0x0000; // Минимальный ID сообщения в списке
@@ -120,6 +116,7 @@ int main(void)
 	
 	HAL_CAN_Start(&hcan1);
 	HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+	*/
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -185,43 +182,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief CAN1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_CAN1_Init(void)
-{
-
-  /* USER CODE BEGIN CAN1_Init 0 */
-
-  /* USER CODE END CAN1_Init 0 */
-
-  /* USER CODE BEGIN CAN1_Init 1 */
-
-  /* USER CODE END CAN1_Init 1 */
-  hcan1.Instance = CAN1;
-  hcan1.Init.Prescaler = 1;
-  hcan1.Init.Mode = CAN_MODE_NORMAL;
-  hcan1.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan1.Init.TimeSeg1 = CAN_BS1_13TQ;
-  hcan1.Init.TimeSeg2 = CAN_BS2_2TQ;
-  hcan1.Init.TimeTriggeredMode = DISABLE;
-  hcan1.Init.AutoBusOff = DISABLE;
-  hcan1.Init.AutoWakeUp = DISABLE;
-  hcan1.Init.AutoRetransmission = ENABLE;
-  hcan1.Init.ReceiveFifoLocked = DISABLE;
-  hcan1.Init.TransmitFifoPriority = DISABLE;
-  if (HAL_CAN_Init(&hcan1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN CAN1_Init 2 */
-
-  /* USER CODE END CAN1_Init 2 */
-
 }
 
 /**

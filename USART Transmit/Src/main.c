@@ -48,8 +48,9 @@ USART_HandleTypeDef husart1;
 
 /* USER CODE BEGIN PV */
 int flag = 0;
+uint8_t strTransmit[] = "HELLO WORLD!\r\n";
 uint8_t strReceive[14] = {0};	// Строка для приема
-uint8_t strTransmit[14] = "HELLO WORLD!\r\n";
+//uint8_t strTransmit[14] = {"HELLO WORLD!\r\n"};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -73,7 +74,6 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
     }
   }
 }
-
 /* USER CODE END 0 */
 
 /**
@@ -108,35 +108,38 @@ int main(void)
   MX_I2C1_Init();
   MX_USART1_Init();
   /* USER CODE BEGIN 2 */
-
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+			//HAL_I2C_Master_Receive_IT(&hi2c1, 2, strReceive, 14);
 			HAL_I2C_Slave_Receive_IT(&hi2c1, strReceive, 14);
 			if (flag == 1)
 			{
-				/*if (strncmp((char *) strReceive, "HELLO WORLD!\r\n",14) == 0)
+				if (strncmp((char *) strReceive, "HELLO WORLD!\r\n",14) == 0)
 					{
 						HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
 						HAL_Delay(2000);
-						HAL_USART_Transmit(&husart1, strReceive, 14, 1500);
+						//HAL_USART_Transmit(&husart1, strReceive, 14, 1500);
 						//HAL_I2S_Transmit(&hi2s2,(uint16_t *) strReceive, 14, 1500);
 						HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);	
-					}*/
+					}
 					flag = 0;
 			}
 			if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
 			{
-			HAL_Delay(500);
+				HAL_Delay(500);
 				if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 0)
 					{
+						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 						HAL_USART_Transmit(&husart1, strTransmit, 14, 1500);
+						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 					}
 			}
-			HAL_Delay(100);
+			//HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -158,10 +161,9 @@ void SystemClock_Config(void)
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -171,7 +173,7 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
@@ -200,7 +202,7 @@ static void MX_I2C1_Init(void)
   hi2c1.Instance = I2C1;
   hi2c1.Init.ClockSpeed = 100000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c1.Init.OwnAddress1 = 2;
+  hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c1.Init.OwnAddress2 = 0;
@@ -236,7 +238,7 @@ static void MX_USART1_Init(void)
   husart1.Init.WordLength = USART_WORDLENGTH_8B;
   husart1.Init.StopBits = USART_STOPBITS_1;
   husart1.Init.Parity = USART_PARITY_NONE;
-  husart1.Init.Mode = USART_MODE_TX;
+  husart1.Init.Mode = USART_MODE_TX_RX;
   husart1.Init.CLKPolarity = USART_POLARITY_LOW;
   husart1.Init.CLKPhase = USART_PHASE_1EDGE;
   husart1.Init.CLKLastBit = USART_LASTBIT_DISABLE;
@@ -264,12 +266,22 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PA0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB7 */
