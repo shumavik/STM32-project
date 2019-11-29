@@ -1,8 +1,15 @@
 --cpu=Cortex-M4.fp
 "spi transmit\startup_stm32f407xx.o"
 "spi transmit\main.o"
+"spi transmit\usb_device.o"
+"spi transmit\usbd_conf.o"
+"spi transmit\usbd_desc.o"
+"spi transmit\usbd_cdc_if.o"
 "spi transmit\stm32f4xx_it.o"
 "spi transmit\stm32f4xx_hal_msp.o"
+"spi transmit\stm32f4xx_hal_pcd.o"
+"spi transmit\stm32f4xx_hal_pcd_ex.o"
+"spi transmit\stm32f4xx_ll_usb.o"
 "spi transmit\stm32f4xx_hal_spi.o"
 "spi transmit\stm32f4xx_hal_tim.o"
 "spi transmit\stm32f4xx_hal_tim_ex.o"
@@ -20,6 +27,10 @@
 "spi transmit\stm32f4xx_hal.o"
 "spi transmit\stm32f4xx_hal_exti.o"
 "spi transmit\system_stm32f4xx.o"
+"spi transmit\usbd_core.o"
+"spi transmit\usbd_ctlreq.o"
+"spi transmit\usbd_ioreq.o"
+"spi transmit\usbd_cdc.o"
 --library_type=microlib --strict --scatter "SPI transmit\SPI transmit.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
