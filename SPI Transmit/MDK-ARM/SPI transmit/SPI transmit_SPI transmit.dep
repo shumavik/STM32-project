@@ -1,6 +1,6 @@
 Dependencies for Project 'SPI transmit', Target 'SPI transmit': (DO NOT MODIFY !)
 F (startup_stm32f407xx.s)(0x5DE10B0E)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_SPI_transmit-IC:\Users\artur\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\artur\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 528" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1"--list startup_stm32f407xx.lst --xref -o "spi transmit\startup_stm32f407xx.o" --depend "spi transmit\startup_stm32f407xx.d")
-F (../Src/main.c)(0x5DE17742)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I.\RTE\_SPI_transmit-IC:\Users\artur\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\artur\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o "spi transmit\main.o" --omf_browse "spi transmit\main.crf" --depend "spi transmit\main.d")
+F (../Src/main.c)(0x5DE3D44C)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I.\RTE\_SPI_transmit-IC:\Users\artur\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\artur\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o "spi transmit\main.o" --omf_browse "spi transmit\main.crf" --depend "spi transmit\main.d")
 I (../Inc/main.h)(0x5DE10B0B)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5D9CA8C3)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5DE10B0A)
@@ -39,7 +39,7 @@ I (../Inc/usbd_conf.h)(0x5DE10B09)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x5CEBC032)
 I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x5CEBC032)
 I (C:\Keil\ARM\ARMCC\include\string.h)(0x5CEBC032)
-I (../Inc/usbd_cdc_if.h)(0x5DE1782C)
+I (../Inc/usbd_cdc_if.h)(0x5DE3CFC7)
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DE16D36)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5D9CA768)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h)(0x5D9CA768)
@@ -88,7 +88,7 @@ I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5D9CA768)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5D9CA768)
 I (../Inc/usbd_desc.h)(0x5DE10B0A)
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DE16D36)
-I (../Inc/usbd_cdc_if.h)(0x5DE1782C)
+I (../Inc/usbd_cdc_if.h)(0x5DE3CFC7)
 F (../Src/usbd_conf.c)(0x5DE10B0A)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I.\RTE\_SPI_transmit-IC:\Users\artur\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\artur\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o "spi transmit\usbd_conf.o" --omf_browse "spi transmit\usbd_conf.crf" --depend "spi transmit\usbd_conf.d")
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5D9CA727)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5D9CA726)
@@ -172,8 +172,8 @@ I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5D9CA768)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5D9CA768)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h)(0x5D9CA768)
 I (../Inc/usbd_desc.h)(0x5DE10B0A)
-F (../Src/usbd_cdc_if.c)(0x5DE17932)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I.\RTE\_SPI_transmit-IC:\Users\artur\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\artur\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o "spi transmit\usbd_cdc_if.o" --omf_browse "spi transmit\usbd_cdc_if.crf" --depend "spi transmit\usbd_cdc_if.d")
-I (../Inc/usbd_cdc_if.h)(0x5DE1782C)
+F (../Src/usbd_cdc_if.c)(0x5DE3D2F5)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I.\RTE\_SPI_transmit-IC:\Users\artur\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\artur\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o "spi transmit\usbd_cdc_if.o" --omf_browse "spi transmit\usbd_cdc_if.crf" --depend "spi transmit\usbd_cdc_if.d")
+I (../Inc/usbd_cdc_if.h)(0x5DE3CFC7)
 I (../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h)(0x5DE16D36)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h)(0x5D9CA768)
 I (../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h)(0x5D9CA768)

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [SPI transmit\SPI transmit.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image SPI transmit\SPI transmit.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 29 23:01:57 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Dec 01 17:55:10 2019
 <BR><P>
 <H3>Maximum Stack Usage =        200 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -420,22 +420,24 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
 </UL>
 
-<P><STRONG><a name="[10f]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
+<P><STRONG><a name="[7e]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Receive_FS
+</UL>
 
 <P><STRONG><a name="[bc]"></a>__aeabi_memcpy4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PCD_Init
 </UL>
 
-<P><STRONG><a name="[110]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
+<P><STRONG><a name="[10f]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
 
 <P><STRONG><a name="[79]"></a>__aeabi_memset</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset$wrapper
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
 
-<P><STRONG><a name="[111]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[110]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
-<P><STRONG><a name="[112]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[111]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[78]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
@@ -448,7 +450,7 @@ Global Symbols
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_MspInit
 </UL>
 
-<P><STRONG><a name="[113]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[112]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[7a]"></a>_memset$wrapper</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
@@ -458,13 +460,13 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 
-<P><STRONG><a name="[114]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
+<P><STRONG><a name="[113]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
 
 <P><STRONG><a name="[76]"></a>__aeabi_llsr</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llushr.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 
-<P><STRONG><a name="[115]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
+<P><STRONG><a name="[114]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
 
 <P><STRONG><a name="[74]"></a>__scatterload</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, init.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
@@ -472,11 +474,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
 </UL>
 
-<P><STRONG><a name="[116]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+<P><STRONG><a name="[115]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
-<P><STRONG><a name="[117]"></a>__decompress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+<P><STRONG><a name="[116]"></a>__decompress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
 
-<P><STRONG><a name="[118]"></a>__decompress1</STRONG> (Thumb, 86 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+<P><STRONG><a name="[117]"></a>__decompress1</STRONG> (Thumb, 86 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
 
 <P><STRONG><a name="[19]"></a>BusFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.BusFault_Handler))
 <BR><BR>[Calls]<UL><LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BusFault_Handler
@@ -485,22 +487,13 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[7e]"></a>CDC_ReceiveCallBack</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, usbd_cdc_if.o(i.CDC_ReceiveCallBack))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = CDC_ReceiveCallBack &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePacket
-</UL>
-<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Transmit_FS
-</UL>
-<BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Receive_FS
-</UL>
-
-<P><STRONG><a name="[7f]"></a>CDC_Transmit_FS</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, usbd_cdc_if.o(i.CDC_Transmit_FS))
+<P><STRONG><a name="[80]"></a>CDC_Transmit_FS</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, usbd_cdc_if.o(i.CDC_Transmit_FS))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePacket
 </UL>
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_TransmitPacket
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_SetTxBuffer
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_ReceiveCallBack
-<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[1c]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.DebugMon_Handler))
@@ -952,7 +945,7 @@ Global Symbols
 <P><STRONG><a name="[14]"></a>USBD_CDC_GetDeviceQualifierDescriptor</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, usbd_cdc.o(i.USBD_CDC_GetDeviceQualifierDescriptor))
 <BR>[Address Reference Count : 1]<UL><LI> usbd_cdc.o(.data)
 </UL>
-<P><STRONG><a name="[80]"></a>USBD_CDC_ReceivePacket</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, usbd_cdc.o(i.USBD_CDC_ReceivePacket))
+<P><STRONG><a name="[7f]"></a>USBD_CDC_ReceivePacket</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, usbd_cdc.o(i.USBD_CDC_ReceivePacket))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = USBD_CDC_ReceivePacket &rArr; USBD_LL_PrepareReceive &rArr; HAL_PCD_EP_Receive &rArr; USB_EPStartXfer &rArr; USB_WritePacket
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_LL_PrepareReceive
@@ -965,13 +958,12 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[7d]"></a>USBD_CDC_SetRxBuffer</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, usbd_cdc.o(i.USBD_CDC_SetRxBuffer))
-<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Receive_FS
-<LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Init_FS
+<BR><BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Init_FS
 </UL>
 
 <P><STRONG><a name="[7c]"></a>USBD_CDC_SetTxBuffer</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, usbd_cdc.o(i.USBD_CDC_SetTxBuffer))
 <BR><BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Init_FS
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Transmit_FS
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Transmit_FS
 </UL>
 
 <P><STRONG><a name="[81]"></a>USBD_CDC_TransmitPacket</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, usbd_cdc.o(i.USBD_CDC_TransmitPacket))
@@ -979,7 +971,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_LL_Transmit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Transmit_FS
+<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Transmit_FS
 </UL>
 
 <P><STRONG><a name="[102]"></a>USBD_ClrClassConfig</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, usbd_core.o(i.USBD_ClrClassConfig))
@@ -1220,7 +1212,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_PCD_EP_Receive
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_Get_USB_Status
 </UL>
-<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_ReceivePacket
+<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_ReceivePacket
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_LL_DataInStage
 <LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_Init
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CtlPrepareRx
@@ -1531,11 +1523,11 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[119]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<P><STRONG><a name="[118]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
 
-<P><STRONG><a name="[11a]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+<P><STRONG><a name="[119]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
 
-<P><STRONG><a name="[11b]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P><STRONG><a name="[11a]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
 <P><STRONG><a name="[e6]"></a>free</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, malloc.o(i.free))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = free
@@ -1543,7 +1535,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_DeInit
 </UL>
 
-<P><STRONG><a name="[70]"></a>main</STRONG> (Thumb, 136 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[70]"></a>main</STRONG> (Thumb, 176 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_RCC_GetSysClockFreq &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USB_DEVICE_Init
@@ -1552,7 +1544,7 @@ Global Symbols
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_TogglePin
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Transmit_FS
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_Transmit_FS
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_SPI1_Init
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
@@ -1598,7 +1590,7 @@ Local Symbols
 <P><STRONG><a name="[8]"></a>CDC_DeInit_FS</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, usbd_cdc_if.o(i.CDC_DeInit_FS))
 <BR>[Address Reference Count : 1]<UL><LI> usbd_cdc_if.o(.data)
 </UL>
-<P><STRONG><a name="[7]"></a>CDC_Init_FS</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, usbd_cdc_if.o(i.CDC_Init_FS))
+<P><STRONG><a name="[7]"></a>CDC_Init_FS</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, usbd_cdc_if.o(i.CDC_Init_FS))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = CDC_Init_FS
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_SetTxBuffer
@@ -1606,12 +1598,11 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> usbd_cdc_if.o(.data)
 </UL>
-<P><STRONG><a name="[a]"></a>CDC_Receive_FS</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, usbd_cdc_if.o(i.CDC_Receive_FS))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = CDC_Receive_FS &rArr; CDC_ReceiveCallBack &rArr; CDC_Transmit_FS &rArr; USBD_CDC_TransmitPacket &rArr; USBD_LL_Transmit &rArr; HAL_PCD_EP_Transmit &rArr; USB_EPStartXfer &rArr; USB_WritePacket
+<P><STRONG><a name="[a]"></a>CDC_Receive_FS</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, usbd_cdc_if.o(i.CDC_Receive_FS))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = CDC_Receive_FS &rArr; USBD_CDC_ReceivePacket &rArr; USBD_LL_PrepareReceive &rArr; HAL_PCD_EP_Receive &rArr; USB_EPStartXfer &rArr; USB_WritePacket
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CDC_ReceiveCallBack
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_SetRxBuffer
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_ReceivePacket
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_ReceivePacket
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> usbd_cdc_if.o(.data)
 </UL>

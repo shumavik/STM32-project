@@ -46,13 +46,13 @@
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-uint8_t strTransmit[] = "HELLO WORLD!\r\n";
-uint8_t strReceive[8] = {0};
-uint8_t Error[] = {"LARGE 20 CHARACTERS\r\n"};
-
-char str_charTx[21];
-uint8_t str_Tx[20];
-int flag = 0;
+//uint8_t strTransmit[] = "HELLO WORLD!\r\n";
+//uint8_t strReceive[8] = {0};
+uint8_t str_Tx[20] = {0};
+uint8_t str_Rx[20] = {0};
+int short flag = 0;
+int short USB_flag = 0;
+int short count;
 //CAN_RxHeaderTypeDef RxHeader;
 //CAN_FilterTypeDef sFilterConfig;
 /* USER CODE END PV */
@@ -129,18 +129,24 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		if (USB_flag == 1)
+		{
+			HAL_Delay(10);
+			CDC_Transmit_FS((uint8_t *)"LARGE 20 CHARACTERS\r\nENTER STRING AGAIN\r\n", 41);
+			USB_flag = 0;
+			for (int i = 0; i < 20; i++)
+			str_Tx[i] = 0;
+		}
 			if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
 			{
 				HAL_Delay(500);
 				if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 0)
 				{
-					//CDC_Transmit_FS(strTransmit, 14);
-					//HAL_Delay(1000);
-					HAL_Delay(500);
-					CDC_Transmit_FS(str_Tx, 20);
-					//CDC_Transmit_FS(Error, 21);
-					//HAL_SPI_Transmit(&hspi1, (uint8_t*) strTransmit, 14, 1500);
-					HAL_SPI_Transmit(&hspi1, (uint8_t*) str_Tx, 20, 1500);
+						HAL_Delay(10);
+						CDC_Transmit_FS(str_Tx, 20);
+						HAL_Delay(10);
+						CDC_Transmit_FS((uint8_t *) "\r\n",2);
+						HAL_SPI_Transmit(&hspi1, (uint8_t*) str_Tx, 20, 1500);
 				}
 			}
 			if (flag == 1)

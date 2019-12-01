@@ -65,8 +65,8 @@
 /* USER CODE BEGIN PRIVATE_DEFINES */
 /* Define size for the receive and transmit buffer over CDC */
 /* It's up to user to redefine and/or remove those define */
-#define APP_RX_DATA_SIZE  2048
-#define APP_TX_DATA_SIZE  2048
+#define APP_RX_DATA_SIZE  64
+#define APP_TX_DATA_SIZE  64
 /* USER CODE END PRIVATE_DEFINES */
 
 /**
@@ -98,9 +98,8 @@ uint8_t UserRxBufferFS[APP_RX_DATA_SIZE];
 /** Data to send over USB CDC are stored in this buffer   */
 uint8_t UserTxBufferFS[APP_TX_DATA_SIZE];
 /* USER CODE BEGIN PRIVATE_VARIABLES */
-extern char str_charTx[20];
 extern uint8_t str_Tx[20];
-int i = 0;
+extern int USB_flag;
 /* USER CODE END PRIVATE_VARIABLES */
 
 /**
@@ -264,14 +263,18 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-	//strncpy(str_charTx, (char *) Buf, *Len);
-	//str_charTx[*Len] = 0; // Добавляем пустой символ строки
-	//memcpy(msg2, msg1, strlen(msg1)+1);
-	//memcpy(str_Tx, str_charTx, strlen(str_charTx));
-	//memcpy(str_Tx, Buf, *Len);
+  //USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+	if (*Len > 20)
+	{
+		USB_flag = 1;
+	}
+	else
+	{
+		for (int i = 0; i < 20 ; i++)
+		str_Tx[i] = 0;
+		memcpy(str_Tx, Buf, *Len);
+	}
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
-	CDC_ReceiveCallBack(Buf, Len[0]);
   return (USBD_OK);
   /* USER CODE END 6 */
 }
@@ -302,12 +305,7 @@ uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
 }
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */
-__weak void CDC_ReceiveCallBack(uint8_t *buf, uint32_t len)
-{
-	CDC_Transmit_FS(buf, len);
-	
-	
-}
+
 /* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
 
 /**
