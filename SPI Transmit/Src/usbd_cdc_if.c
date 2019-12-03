@@ -97,6 +97,7 @@ uint8_t UserRxBufferFS[APP_RX_DATA_SIZE];
 
 /** Data to send over USB CDC are stored in this buffer   */
 uint8_t UserTxBufferFS[APP_TX_DATA_SIZE];
+
 /* USER CODE BEGIN PRIVATE_VARIABLES */
 extern uint8_t str_Tx[20];
 extern int USB_flag;

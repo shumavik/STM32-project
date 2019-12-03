@@ -42,19 +42,26 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+CRC_HandleTypeDef hcrc;
+
 SPI_HandleTypeDef hspi1;
 
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-	int flag = 0;
-	uint8_t strReceive[14] = {0};	// Строка для приема
+//uint8_t strReceive[14] = {0};	// Строка для приема
+	
+uint8_t str_Tx[24] = {0};
+uint8_t str_Rx[24] = {0};
+int short flag = 0;
+int short USB_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_CRC_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -68,12 +75,6 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
   {
     if(hspi1.RxXferCount == 0)
     {
-     /* if (strncmp((char *) strReceive, "HELLO WORLD!\r\n",14) == 0)
-			{
-					HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
-					HAL_Delay(10);
-					HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
-			}*/
 			flag = 1;
     }
   }
@@ -87,7 +88,10 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	
+	uint32_t Rx_Message_CRC[6] = {0};
+	uint32_t Tx_Message_CRC[5] = {0};
+	uint32_t CRC_Rx;
+	uint32_t CRC_Tx;
   /* USER CODE END 1 */
   
 
@@ -110,6 +114,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
+  MX_CRC_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 	//HAL_SPI_Receive_IT(&hspi1, strReceive, 14);
@@ -119,16 +124,49 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-			HAL_SPI_Receive_IT(&hspi1, strReceive, 14);
-			if (flag == 1)
+		HAL_SPI_Receive_IT(&hspi1, str_Rx, 24); // Ожидание прерыания на прием по SPI
+		if (flag == 1) // Обработка прерывания
 			{
-				if (strncmp((char *) strReceive, "HELLO WORLD!\r\n",14) == 0)
-					{
+				// Подготовка к вычислению контрольной суммы принятого собщения
+				for (short int i = 0, j = 0; i < 6; i++, j+=4)
+						{
+							Rx_Message_CRC[i] = str_Rx[j+3] | (str_Rx[j+2] << 8) | (str_Rx[j+1] << 16) | (str_Rx[j] << 24);
+						}
+						
+				CRC_Rx = HAL_CRC_Calculate(&hcrc, Rx_Message_CRC, 6); // Вычисление CRC принимаемого сообщения
+				if (CRC_Rx == 0) // Если CRC(data+CRC) == 0, то ошибок при передаче не было
+				{
+						// Успешный прием
 						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
 						HAL_Delay(2000);
-						HAL_UART_Transmit(&huart2, strReceive, 14, 1500);
 						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
+						/*
+							МК	Обработка
+						*/
+					// Пока заглушка
+						for (short int i = 0; i < 20; i++)
+						str_Tx[i] = str_Rx[i];
+					
+						for (short int i = 0, j = 0; i < 5; i++, j+=4)
+						{
+							Tx_Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
+						}
+						
+						// Формируем новое сообщение с новым CRC
+						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
+						for (short int i = 20, j = 24; i < 24 ; i++, j-=8)
+						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
+						HAL_UART_Transmit(&huart2, str_Tx, 20, 1500);
+				}
+				else
+				{
+					for (short int i = 0; i < 5; i++)
+					{
+						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
+						HAL_Delay(500);
 					}
+				}
+				//if (strncmp((char *) strReceive, "HELLO WORLD!\r\n",14) == 0)
 				flag = 0;
 			}
 			HAL_Delay(100);
@@ -150,10 +188,12 @@ void SystemClock_Config(void)
 
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV2;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -162,15 +202,41 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
 }
 
 /**
@@ -254,6 +320,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 

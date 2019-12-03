@@ -43,16 +43,17 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+CRC_HandleTypeDef hcrc;
+
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
 //uint8_t strTransmit[] = "HELLO WORLD!\r\n";
 //uint8_t strReceive[8] = {0};
-uint8_t str_Tx[20] = {0};
-uint8_t str_Rx[20] = {0};
+uint8_t str_Tx[24] = {0};
+uint8_t str_Rx[24] = {0};
 int short flag = 0;
 int short USB_flag = 0;
-int short count;
 //CAN_RxHeaderTypeDef RxHeader;
 //CAN_FilterTypeDef sFilterConfig;
 /* USER CODE END PV */
@@ -61,6 +62,7 @@ int short count;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -81,7 +83,8 @@ static void MX_SPI1_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	uint32_t Message_CRC[5] = {0};
+	uint32_t CRC_Tx;
   /* USER CODE END 1 */
   
 
@@ -105,6 +108,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_USB_DEVICE_Init();
+  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
 	
 	// Настройка фильтра приема
@@ -134,8 +138,6 @@ int main(void)
 			HAL_Delay(10);
 			CDC_Transmit_FS((uint8_t *)"LARGE 20 CHARACTERS\r\nENTER STRING AGAIN\r\n", 41);
 			USB_flag = 0;
-			for (int i = 0; i < 20; i++)
-			str_Tx[i] = 0;
 		}
 			if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
 			{
@@ -146,7 +148,15 @@ int main(void)
 						CDC_Transmit_FS(str_Tx, 20);
 						HAL_Delay(10);
 						CDC_Transmit_FS((uint8_t *) "\r\n",2);
-						HAL_SPI_Transmit(&hspi1, (uint8_t*) str_Tx, 20, 1500);
+						for (short int i = 0, j = 0; i < 5; i++, j+=4)
+						{
+							Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
+						}
+						CRC_Tx = HAL_CRC_Calculate(&hcrc, Message_CRC, 5);
+						for (short int i = 20, j = 24; i < 24 ; i++, j-=8)
+						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
+						HAL_Delay(100);
+						HAL_SPI_Transmit(&hspi1, (uint8_t*) str_Tx, 24, 5000);
 				}
 			}
 			if (flag == 1)
@@ -203,6 +213,32 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
 }
 
 /**

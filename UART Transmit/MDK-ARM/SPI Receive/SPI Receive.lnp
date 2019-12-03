@@ -4,6 +4,7 @@
 "spi receive\stm32f1xx_it.o"
 "spi receive\stm32f1xx_hal_msp.o"
 "spi receive\stm32f1xx_hal_gpio_ex.o"
+"spi receive\stm32f1xx_hal_crc.o"
 "spi receive\stm32f1xx_hal_spi.o"
 "spi receive\stm32f1xx_hal_tim.o"
 "spi receive\stm32f1xx_hal_tim_ex.o"

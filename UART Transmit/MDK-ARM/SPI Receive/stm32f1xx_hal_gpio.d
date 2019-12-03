@@ -20,6 +20,7 @@ spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_
 spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
 spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_crc.h
 spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 spi receive\stm32f1xx_hal_gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
