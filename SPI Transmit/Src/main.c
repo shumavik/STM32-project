@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
+#include <ctype.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,12 +49,10 @@ CRC_HandleTypeDef hcrc;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-//uint8_t strTransmit[] = "HELLO WORLD!\r\n";
-//uint8_t strReceive[8] = {0};
 uint8_t str_Tx[24] = {0};
 uint8_t str_Rx[24] = {0};
-int short flag = 0;
-int short USB_flag = 0;
+int flag = 0;
+int USB_flag = 0;
 //CAN_RxHeaderTypeDef RxHeader;
 //CAN_FilterTypeDef sFilterConfig;
 /* USER CODE END PV */
@@ -64,7 +63,7 @@ static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
-
+void MK_Processing(uint8_t *s); // Перевод в верхний регистр
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -110,7 +109,6 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-	
 	// Настройка фильтра приема
 	/*sFilterConfig.FilterBank = 0; // Выбор банка (всего банков 14)
 	sFilterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0; // Привязка буфера на прием
@@ -127,6 +125,7 @@ int main(void)
 	HAL_CAN_Start(&hcan1);
 	HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 	*/
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -135,8 +134,8 @@ int main(void)
   {
 		if (USB_flag == 1)
 		{
-			HAL_Delay(10);
-			CDC_Transmit_FS((uint8_t *)"LARGE 20 CHARACTERS\r\nENTER STRING AGAIN\r\n", 41);
+			HAL_Delay(100);
+		  CDC_Transmit_FS((uint8_t *)"LARGE 20 CHARACTERS\r\nENTER STRING AGAIN\r\n", 41);
 			USB_flag = 0;
 		}
 			if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
@@ -148,15 +147,15 @@ int main(void)
 						CDC_Transmit_FS(str_Tx, 20);
 						HAL_Delay(10);
 						CDC_Transmit_FS((uint8_t *) "\r\n",2);
-						for (short int i = 0, j = 0; i < 5; i++, j+=4)
+						MK_Processing(str_Tx);
+						for (int i = 0, j = 0; i < 5; i++, j+=4)
 						{
 							Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
 						}
 						CRC_Tx = HAL_CRC_Calculate(&hcrc, Message_CRC, 5);
-						for (short int i = 20, j = 24; i < 24 ; i++, j-=8)
+						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
 						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
-						HAL_Delay(100);
-						HAL_SPI_Transmit(&hspi1, (uint8_t*) str_Tx, 24, 5000);
+						HAL_SPI_Transmit(&hspi1, (uint8_t*) str_Tx, 24, 1500);
 				}
 			}
 			if (flag == 1)
@@ -312,7 +311,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void MK_Processing(uint8_t *s)
+{
+	for (int i = 0; i < 20; i++)
+	s[i] = toupper(s[i]);
+}
 /* USER CODE END 4 */
 
 /**

@@ -3,6 +3,7 @@
 "usart\main.o"
 "usart\stm32l1xx_it.o"
 "usart\stm32l1xx_hal_msp.o"
+"usart\stm32l1xx_hal_crc.o"
 "usart\stm32l1xx_hal_i2c.o"
 "usart\stm32l1xx_hal_tim.o"
 "usart\stm32l1xx_hal_tim_ex.o"

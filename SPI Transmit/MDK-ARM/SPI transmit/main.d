@@ -45,3 +45,4 @@ spi transmit\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_io
 spi transmit\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 spi transmit\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
 spi transmit\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
+spi transmit\main.o: C:\Keil\ARM\ARMCC\Bin\..\include\ctype.h

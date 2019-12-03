@@ -20,6 +20,7 @@ usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_g
 usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_gpio_ex.h
 usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_dma.h
 usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_cortex.h
+usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_crc.h
 usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_flash.h
 usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_flash_ex.h
 usart\stm32l1xx_hal_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_flash_ramfunc.h

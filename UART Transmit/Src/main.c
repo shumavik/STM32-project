@@ -53,8 +53,7 @@ UART_HandleTypeDef huart2;
 	
 uint8_t str_Tx[24] = {0};
 uint8_t str_Rx[24] = {0};
-int short flag = 0;
-int short USB_flag = 0;
+int flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,7 +63,7 @@ static void MX_SPI1_Init(void);
 static void MX_CRC_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
-
+void MK_Processing(uint8_t *s); // Заменяем на * все цифры
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -128,7 +127,7 @@ int main(void)
 		if (flag == 1) // Обработка прерывания
 			{
 				// Подготовка к вычислению контрольной суммы принятого собщения
-				for (short int i = 0, j = 0; i < 6; i++, j+=4)
+				for (int i = 0, j = 0; i < 6; i++, j+=4)
 						{
 							Rx_Message_CRC[i] = str_Rx[j+3] | (str_Rx[j+2] << 8) | (str_Rx[j+1] << 16) | (str_Rx[j] << 24);
 						}
@@ -143,24 +142,25 @@ int main(void)
 						/*
 							МК	Обработка
 						*/
-					// Пока заглушка
-						for (short int i = 0; i < 20; i++)
+						for (int i = 0; i < 20; i++)
 						str_Tx[i] = str_Rx[i];
-					
-						for (short int i = 0, j = 0; i < 5; i++, j+=4)
+						
+						MK_Processing(str_Tx);
+						
+						for (int i = 0, j = 0; i < 5; i++, j+=4)
 						{
 							Tx_Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
 						}
 						
 						// Формируем новое сообщение с новым CRC
 						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
-						for (short int i = 20, j = 24; i < 24 ; i++, j-=8)
+						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
 						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
-						HAL_UART_Transmit(&huart2, str_Tx, 20, 1500);
+						HAL_UART_Transmit(&huart2, str_Tx, 24, 1500);
 				}
 				else
 				{
-					for (short int i = 0; i < 5; i++)
+					for (int i = 0; i < 10; i++)
 					{
 						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
 						HAL_Delay(500);
@@ -337,7 +337,12 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void MK_Processing(uint8_t *s)
+{
+	for (int i = 0; i < 20; i++)
+		if(s[i] >= '0' && s[i] <= '9')
+			s[i] = '*';
+}
 /* USER CODE END 4 */
 
 /**

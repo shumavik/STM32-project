@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L152xC,USE_HAL_DRIVER,STM32L152xC</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                        ../Drivers/STM32L1xx_HAL_Driver/Inc;                        ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                        ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                        ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc;                         ../Drivers/STM32L1xx_HAL_Driver/Inc;                         ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                         ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                         ../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -412,6 +412,11 @@
         <Group>
           <GroupName>Drivers/STM32L1xx_HAL_Driver</GroupName>
           <Files>
+            <File>
+              <FileName>stm32l1xx_hal_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_crc.c</FilePath>
+            </File>
             <File>
               <FileName>stm32l1xx_hal_i2c.c</FileName>
               <FileType>1</FileType>
