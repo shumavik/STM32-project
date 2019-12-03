@@ -49,10 +49,9 @@ I2C_HandleTypeDef hi2c1;
 USART_HandleTypeDef husart1;
 
 /* USER CODE BEGIN PV */
+uint8_t str_Tx[24] = {0};
+uint8_t str_Rx[24] = {0};
 int flag = 0;
-uint8_t strTransmit[] = "HELLO WORLD!\r\n";
-uint8_t strReceive[14] = {0};	// Строка для приема
-//uint8_t strTransmit[14] = {"HELLO WORLD!\r\n"};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,7 +61,7 @@ static void MX_I2C1_Init(void);
 static void MX_CRC_Init(void);
 static void MX_USART1_Init(void);
 /* USER CODE BEGIN PFP */
-
+void MK_Processing(uint8_t *s); //
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -86,7 +85,10 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	uint32_t Rx_Message_CRC[6] = {0};
+	uint32_t Tx_Message_CRC[5] = {0};
+	uint32_t CRC_Rx;
+	uint32_t CRC_Tx;
   /* USER CODE END 1 */
   
 
@@ -120,30 +122,55 @@ int main(void)
   while (1)
   {
 			//HAL_I2C_Master_Receive_IT(&hi2c1, 2, strReceive, 14);
-			HAL_I2C_Slave_Receive_IT(&hi2c1, strReceive, 14);
+			HAL_I2C_Slave_Receive_IT(&hi2c1, str_Rx, 24);
 			if (flag == 1)
 			{
-				if (strncmp((char *) strReceive, "HELLO WORLD!\r\n",14) == 0)
+				// Подготовка к вычислению контрольной суммы принятого собщения
+				for (int i = 0, j = 0; i < 6; i++, j+=4)
+						{
+							Rx_Message_CRC[i] = str_Rx[j+3] | (str_Rx[j+2] << 8) | (str_Rx[j+1] << 16) | (str_Rx[j] << 24);
+						}
+				
+				CRC_Rx = HAL_CRC_Calculate(&hcrc, Rx_Message_CRC, 6); // Вычисление CRC принимаемого сообщения
+						
+				if (CRC_Rx == 0) // Если CRC(data+CRC) == 0, то ошибок при передаче не было
+				{
+						// Успешный прием
+						//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+						HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+						HAL_Delay(2000);
+						HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+						//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+						/*
+							МК	Обработка
+						*/
+						for (int i = 0; i < 20; i++)
+						str_Tx[i] = str_Rx[i];
+						
+						MK_Processing(str_Tx);
+					
+						for (int i = 0, j = 0; i < 5; i++, j+=4)
+						{
+							Tx_Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
+						}
+						
+						// Формируем новое сообщение с новым CRC
+						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
+						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
+						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
+						//HAL_I2C_Master_Transmit(&hi2c1, 2, str_Tx, 24, 1500);
+				}
+				else
+				{
+					for (int i = 0; i < 10; i++)
 					{
 						HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
-						HAL_Delay(2000);
-						//HAL_USART_Transmit(&husart1, strReceive, 14, 1500);
-						//HAL_I2S_Transmit(&hi2s2,(uint16_t *) strReceive, 14, 1500);
-						HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);	
+						HAL_Delay(500);
 					}
-					flag = 0;
+				}
+				flag = 0;
 			}
-			if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
-			{
-				HAL_Delay(500);
-				if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 0)
-					{
-						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-						HAL_USART_Transmit(&husart1, strTransmit, 14, 1500);
-						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-					}
-			}
-			//HAL_Delay(100);
+			HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -231,7 +258,7 @@ static void MX_I2C1_Init(void)
   hi2c1.Instance = I2C1;
   hi2c1.Init.ClockSpeed = 100000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c1.Init.OwnAddress1 = 2;
+  hi2c1.Init.OwnAddress1 = 4;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c1.Init.OwnAddress2 = 0;
@@ -324,7 +351,10 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void MK_Processing(uint8_t *s)
+{
+	
+}
 /* USER CODE END 4 */
 
 /**
