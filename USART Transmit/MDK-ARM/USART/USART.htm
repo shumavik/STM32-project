@@ -3,9 +3,9 @@
 <title>Static Call Graph - [USART\USART.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image USART\USART.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Dec 04 14:33:48 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Dec 04 18:20:05 2019
 <BR><P>
-<H3>Maximum Stack Usage =        200 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        208 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; SystemClock_Config &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
 <P>
@@ -295,7 +295,6 @@ Global Symbols
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MspInit
 <LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
 
 <P><STRONG><a name="[86]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
@@ -342,14 +341,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CRC_Init
 </UL>
 
-<P><STRONG><a name="[6f]"></a>HAL_DMA_Abort_IT</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, stm32l1xx_hal_dma.o(i.HAL_DMA_Abort_IT))
+<P><STRONG><a name="[71]"></a>HAL_DMA_Abort_IT</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, stm32l1xx_hal_dma.o(i.HAL_DMA_Abort_IT))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_DMA_Abort_IT
 </UL>
 <BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Slave_STOPF
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
+<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
 </UL>
 
-<P><STRONG><a name="[75]"></a>HAL_DMA_GetState</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32l1xx_hal_dma.o(i.HAL_DMA_GetState))
+<P><STRONG><a name="[77]"></a>HAL_DMA_GetState</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32l1xx_hal_dma.o(i.HAL_DMA_GetState))
 <BR><BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Slave_STOPF
 </UL>
 
@@ -366,26 +365,18 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_MspInit
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MspInit
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
-</UL>
-
-<P><STRONG><a name="[7d]"></a>HAL_GPIO_TogglePin</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32l1xx_hal_gpio.o(i.HAL_GPIO_TogglePin))
-<BR><BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[77]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32l1xx_hal_gpio.o(i.HAL_GPIO_WritePin))
-<BR><BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
 
 <P><STRONG><a name="[4c]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32l1xx_hal.o(i.HAL_GetTick))
-<BR><BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
+<BR><BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_Transmit
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_WaitOnFlagUntilTimeout
 </UL>
 
-<P><STRONG><a name="[6d]"></a>HAL_I2C_AbortCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_AbortCpltCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
+<P><STRONG><a name="[6f]"></a>HAL_I2C_AbortCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_AbortCpltCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_DMAAbort
 </UL>
 
@@ -410,8 +401,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C1_EV_IRQHandler
 </UL>
 
-<P><STRONG><a name="[6c]"></a>HAL_I2C_ErrorCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_ErrorCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
+<P><STRONG><a name="[6e]"></a>HAL_I2C_ErrorCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_ErrorCallback))
+<BR><BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_DMAAbort
 </UL>
 
@@ -424,27 +415,27 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[70]"></a>HAL_I2C_ListenCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_ListenCpltCallback))
+<P><STRONG><a name="[72]"></a>HAL_I2C_ListenCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_ListenCpltCallback))
 <BR><BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Slave_STOPF
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
+<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
 </UL>
 
-<P><STRONG><a name="[71]"></a>HAL_I2C_MasterRxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MasterRxCpltCallback))
+<P><STRONG><a name="[73]"></a>HAL_I2C_MasterRxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MasterRxCpltCallback))
 <BR><BR>[Called By]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterReceive_RXNE
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterReceive_BTF
 </UL>
 
-<P><STRONG><a name="[73]"></a>HAL_I2C_MasterTxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MasterTxCpltCallback))
+<P><STRONG><a name="[75]"></a>HAL_I2C_MasterTxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MasterTxCpltCallback))
 <BR><BR>[Called By]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterTransmit_TXE
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterTransmit_BTF
 </UL>
 
-<P><STRONG><a name="[72]"></a>HAL_I2C_MemRxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MemRxCpltCallback))
+<P><STRONG><a name="[74]"></a>HAL_I2C_MemRxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MemRxCpltCallback))
 <BR><BR>[Called By]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterReceive_RXNE
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterReceive_BTF
 </UL>
 
-<P><STRONG><a name="[74]"></a>HAL_I2C_MemTxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MemTxCpltCallback))
+<P><STRONG><a name="[76]"></a>HAL_I2C_MemTxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_hal_i2c.o(i.HAL_I2C_MemTxCpltCallback))
 <BR><BR>[Called By]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterTransmit_TXE
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_MasterTransmit_BTF
 </UL>
@@ -582,6 +573,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_Init
 </UL>
 
+<P><STRONG><a name="[6c]"></a>HAL_USART_Transmit</STRONG> (Thumb, 186 bytes, Stack size 40 bytes, stm32l1xx_hal_usart.o(i.HAL_USART_Transmit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = HAL_USART_Transmit &rArr; USART_WaitOnFlagUntilTimeout
+</UL>
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_WaitOnFlagUntilTimeout
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+</UL>
+<BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
 <P><STRONG><a name="[2]"></a>HardFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_it.o(i.HardFault_Handler))
 <BR><BR>[Calls]<UL><LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardFault_Handler
 </UL>
@@ -596,6 +596,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l152xc.o(RESET)
 </UL>
+<P><STRONG><a name="[7d]"></a>MK_Processing</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, main.o(i.MK_Processing))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = MK_Processing
+</UL>
+<BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
 <P><STRONG><a name="[3]"></a>MemManage_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l1xx_it.o(i.MemManage_Handler))
 <BR><BR>[Calls]<UL><LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MemManage_Handler
 </UL>
@@ -643,20 +649,19 @@ Global Symbols
 
 <P><STRONG><a name="[8a]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[3f]"></a>main</STRONG> (Thumb, 356 bytes, Stack size 48 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
+<P><STRONG><a name="[3f]"></a>main</STRONG> (Thumb, 384 bytes, Stack size 56 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_OscConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_Init
+<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_Transmit
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_Init
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Slave_Receive_IT
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Init
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_TogglePin
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CRC_Init
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CRC_Calculate
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MK_Processing
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
@@ -667,32 +672,22 @@ Local Symbols
 <P><STRONG><a name="[22]"></a>LCD_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32l152xc.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l152xc.o(RESET)
 </UL>
-<P><STRONG><a name="[76]"></a>MX_GPIO_Init</STRONG> (Thumb, 114 bytes, Stack size 40 bytes, main.o(i.MX_GPIO_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
-</UL>
-<BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
-<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
-</UL>
-<BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
 <P><STRONG><a name="[42]"></a>I2C_DMAAbort</STRONG> (Thumb, 126 bytes, Stack size 8 bytes, stm32l1xx_hal_i2c.o(i.I2C_DMAAbort))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = I2C_DMAAbort
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ErrorCallback
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_AbortCpltCallback
+<BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ErrorCallback
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_AbortCpltCallback
 </UL>
 <BR>[Address Reference Count : 2]<UL><LI> stm32l1xx_hal_i2c.o(i.I2C_ITError)
 <LI> stm32l1xx_hal_i2c.o(i.I2C_Slave_STOPF)
 </UL>
-<P><STRONG><a name="[6e]"></a>I2C_ITError</STRONG> (Thumb, 312 bytes, Stack size 16 bytes, stm32l1xx_hal_i2c.o(i.I2C_ITError))
+<P><STRONG><a name="[70]"></a>I2C_ITError</STRONG> (Thumb, 312 bytes, Stack size 16 bytes, stm32l1xx_hal_i2c.o(i.I2C_ITError))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = I2C_ITError &rArr; HAL_DMA_Abort_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ListenCpltCallback
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ErrorCallback
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_AbortCpltCallback
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
+<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ListenCpltCallback
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ErrorCallback
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_AbortCpltCallback
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
 </UL>
 <BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Slave_STOPF
 </UL>
@@ -700,8 +695,8 @@ Local Symbols
 <P><STRONG><a name="[53]"></a>I2C_MasterReceive_BTF</STRONG> (Thumb, 210 bytes, Stack size 8 bytes, stm32l1xx_hal_i2c.o(i.I2C_MasterReceive_BTF))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = I2C_MasterReceive_BTF
 </UL>
-<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemRxCpltCallback
-<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterRxCpltCallback
+<BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemRxCpltCallback
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterRxCpltCallback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_EV_IRQHandler
 </UL>
@@ -709,8 +704,8 @@ Local Symbols
 <P><STRONG><a name="[52]"></a>I2C_MasterReceive_RXNE</STRONG> (Thumb, 146 bytes, Stack size 8 bytes, stm32l1xx_hal_i2c.o(i.I2C_MasterReceive_RXNE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = I2C_MasterReceive_RXNE
 </UL>
-<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemRxCpltCallback
-<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterRxCpltCallback
+<BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemRxCpltCallback
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterRxCpltCallback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_EV_IRQHandler
 </UL>
@@ -718,8 +713,8 @@ Local Symbols
 <P><STRONG><a name="[51]"></a>I2C_MasterTransmit_BTF</STRONG> (Thumb, 130 bytes, Stack size 8 bytes, stm32l1xx_hal_i2c.o(i.I2C_MasterTransmit_BTF))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = I2C_MasterTransmit_BTF
 </UL>
-<BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemTxCpltCallback
-<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterTxCpltCallback
+<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemTxCpltCallback
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterTxCpltCallback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_EV_IRQHandler
 </UL>
@@ -727,8 +722,8 @@ Local Symbols
 <P><STRONG><a name="[50]"></a>I2C_MasterTransmit_TXE</STRONG> (Thumb, 260 bytes, Stack size 8 bytes, stm32l1xx_hal_i2c.o(i.I2C_MasterTransmit_TXE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = I2C_MasterTransmit_TXE
 </UL>
-<BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemTxCpltCallback
-<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterTxCpltCallback
+<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MemTxCpltCallback
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_MasterTxCpltCallback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_EV_IRQHandler
 </UL>
@@ -746,11 +741,11 @@ Local Symbols
 <P><STRONG><a name="[55]"></a>I2C_Slave_STOPF</STRONG> (Thumb, 338 bytes, Stack size 24 bytes, stm32l1xx_hal_i2c.o(i.I2C_Slave_STOPF))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = I2C_Slave_STOPF &rArr; I2C_ITError &rArr; HAL_DMA_Abort_IT
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
+<BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ITError
 <LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_SlaveRxCpltCallback
-<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ListenCpltCallback
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_GetState
-<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
+<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_ListenCpltCallback
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_GetState
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_EV_IRQHandler
 </UL>
@@ -762,6 +757,14 @@ Local Symbols
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
 </UL>
 <BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_Init
+</UL>
+
+<P><STRONG><a name="[6d]"></a>USART_WaitOnFlagUntilTimeout</STRONG> (Thumb, 116 bytes, Stack size 24 bytes, stm32l1xx_hal_usart.o(i.USART_WaitOnFlagUntilTimeout))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = USART_WaitOnFlagUntilTimeout
+</UL>
+<BR>[Calls]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+</UL>
+<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_USART_Transmit
 </UL>
 
 <P><STRONG><a name="[68]"></a>RCC_SetFlashLatencyFromMSIRange</STRONG> (Thumb, 116 bytes, Stack size 16 bytes, stm32l1xx_hal_rcc.o(i.RCC_SetFlashLatencyFromMSIRange))

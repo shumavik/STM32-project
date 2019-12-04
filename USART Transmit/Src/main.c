@@ -114,7 +114,7 @@ int main(void)
   MX_USART1_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,9 +137,9 @@ int main(void)
 				{
 						// Успешный прием
 						//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
-						HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+					//	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
 						HAL_Delay(2000);
-						HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+					//	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
 						//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
 						/*
 							МК	Обработка
@@ -158,13 +158,13 @@ int main(void)
 						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
 						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
 						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
-						//HAL_I2C_Master_Transmit(&hi2c1, 2, str_Tx, 24, 1500);
+						HAL_USART_Transmit(&husart1, str_Tx, 24, 1500);
 				}
 				else
 				{
 					for (int i = 0; i < 10; i++)
 					{
-						HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+						//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
 						HAL_Delay(500);
 					}
 				}
@@ -315,35 +315,26 @@ static void MX_USART1_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */
 void MK_Processing(uint8_t *s)
 {
-	
+	uint8_t buf = 0;
+	for (int i = 19; i >= 0; i--)
+		if (s[i] >= '0' && s[i] <= '9')
+		{
+			buf = s[i];
+			for (int j = i; j < 19; j++)
+			s[j] = s[j+1];
+			s[19] = buf;
+		}
 }
 /* USER CODE END 4 */
 
