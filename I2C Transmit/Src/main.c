@@ -154,7 +154,7 @@ int main(void)
 						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
 						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
 						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
-						HAL_I2C_Master_Transmit(&hi2c1, 2, str_Tx, 24, 1500);
+						HAL_I2C_Master_Transmit(&hi2c1, 0x00000004, str_Tx, 24, 1500);
 				}
 				else
 				{
@@ -245,7 +245,7 @@ static void MX_I2C1_Init(void)
 {
 
   /* USER CODE BEGIN I2C1_Init 0 */
-
+	
   /* USER CODE END I2C1_Init 0 */
 
   /* USER CODE BEGIN I2C1_Init 1 */
@@ -279,7 +279,7 @@ static void MX_USART2_UART_Init(void)
 {
 
   /* USER CODE BEGIN USART2_Init 0 */
-
+	
   /* USER CODE END USART2_Init 0 */
 
   /* USER CODE BEGIN USART2_Init 1 */
