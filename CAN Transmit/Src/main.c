@@ -20,10 +20,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,13 +45,21 @@
 /* Private variables ---------------------------------------------------------*/
 CAN_HandleTypeDef hcan1;
 
-USART_HandleTypeDef husart2;
+CRC_HandleTypeDef hcrc;
+
+SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
 //uint8_t strReceive[5] = {0};
-uint8_t strReceive[14] = {0};
-int flag_USART = 0;
+uint8_t str_Tx[24] = {0};
+uint8_t str_Rx[24] = {0};
+uint8_t CAN_buf[8] = {0};
+uint8_t SPI_str_Rx[24] = {0};
 int flag = 0;
+int USB_flag = 0;
+int CAN_flag = 0;
+int count = 0;
+int End_receive = 0;
 CAN_FilterTypeDef sFilterConfig;
 CAN_RxHeaderTypeDef RxHeader;
 /* USER CODE END PV */
@@ -59,33 +68,46 @@ CAN_RxHeaderTypeDef RxHeader;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_CAN1_Init(void);
-static void MX_USART2_Init(void);
+static void MX_CRC_Init(void);
+static void MX_SPI1_Init(void);
 /* USER CODE BEGIN PFP */
 void CAN1_Tx(void);
+void MK_Processing(uint8_t *s); // Перевод в префиксный код
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	if (husart == &husart2)
+	if (hspi == &hspi1)
 	{
-		if (husart2.RxXferCount == 0)
+		if (hspi1.RxXferCount == 0)
 		{
-			flag_USART = 1;
+			flag = 1;
 		}
 	}
 }
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-{
-	HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive);
+{	
+	HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, CAN_buf);
+	for (int i = 0; i < 8; i++)
+	{
+		str_Rx[count] = CAN_buf[i];
+		count++;
+	}
+	if (count == 23)
+	{
+		//count = 0;
+		CAN_flag = 1;
+		count = 0;
 	/*
 	if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive) != HAL_OK)
 	{
 		Error_Handler();
 	}
 	*/
-	flag = 1;
+	}
+	End_receive = 1;
 }
 /* USER CODE END 0 */
 
@@ -96,7 +118,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	uint32_t Rx_Message_CRC[6] = {0};
+	uint32_t Tx_Message_CRC[5] = {0};
+	uint32_t CRC_Rx;
+	uint32_t CRC_Tx;
   /* USER CODE END 1 */
   
 
@@ -119,7 +144,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CAN1_Init();
-  MX_USART2_Init();
+  MX_CRC_Init();
+  MX_SPI1_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 	// Настройка фильтра приема
 	sFilterConfig.FilterBank = 0; // Выбор банка (всего банков 14)
@@ -134,8 +161,8 @@ int main(void)
 	
 	HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig); // Применение настройки фильтра для CAN1
 	
-	//HAL_CAN_Start(&hcan1);
-	//HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+	HAL_CAN_Start(&hcan1);
+	HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 	
   /* USER CODE END 2 */
 
@@ -143,38 +170,70 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		//HAL_USART_Receive(&husart2, strReceive, 14, 1500);
-		HAL_USART_Receive_IT(&husart2, strReceive, 14);
-		//HAL_USART_Receive_IT(&husart2, strReceive, 14);
-		//HAL_USART_Receive(&husart1, strReceive, 14, 1500);
-		if (flag_USART == 1)
-		{
-			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
-			HAL_Delay(2000);
-			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
-			//CAN1_Tx();
-			flag_USART = 0;
-		}
-		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1)
-		{
-			HAL_Delay(500);
-			if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 0)
-			{
-				CAN1_Tx();
-			}
-		}
+		HAL_SPI_Receive_IT(&hspi1, SPI_str_Rx, 24);
 		if (flag == 1)
 		{
-			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
-			HAL_Delay(2000);
-			HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
+			//HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
+			//HAL_Delay(500);
+			CAN1_Tx(); // Передача по CAN
 			flag = 0;
 		}
+		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 1 && CAN_flag == 1)
+			{
+				HAL_Delay(500);
+				if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == 0)
+				{
+					CDC_Transmit_FS(str_Rx, 24);
+				}
+			}
+		
+		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, str_Rx); // Прием по CAN
+		if (CAN_flag == 1)
+		{
+			// Подготовка к вычислению контрольной суммы принятого собщения
+				for (int i = 0, j = 0; i < 6; i++, j+=4)
+						{
+							Rx_Message_CRC[i] = str_Rx[j+3] | (str_Rx[j+2] << 8) | (str_Rx[j+1] << 16) | (str_Rx[j] << 24);
+						}
+				
+				CRC_Rx = HAL_CRC_Calculate(&hcrc, Rx_Message_CRC, 6); // Вычисление CRC принимаемого сообщения
+						
+				if (CRC_Rx == 0) // Если CRC(data+CRC) == 0, то ошибок при передаче не было
+				{
+						// Успешный прием
+						HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
+						HAL_Delay(2000);
+						HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
+						/*
+							МК	Обработка
+						*/
+						for (int i = 0; i < 20; i++)
+						str_Tx[i] = str_Rx[i];
+						
+						MK_Processing(str_Tx);
+					
+						for (int i = 0, j = 0; i < 5; i++, j+=4)
+						{
+							Tx_Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
+						}
+						
+						// Формируем новое сообщение с новым CRC
+						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
+						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
+						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
+						//HAL_USART_Transmit(&husart1, str_Tx, 24, 1500);
+				}
+				else
+				{
+					for (int i = 0; i < 10; i++)
+					{
+						HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
+						HAL_Delay(500);
+					}
+				}
+				CAN_flag = 0;
+		}
 		HAL_Delay(100);
-		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive);
-		
-		
-		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -197,10 +256,14 @@ void SystemClock_Config(void)
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 96;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV6;
+  RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -209,10 +272,10 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
   {
@@ -258,36 +321,65 @@ static void MX_CAN1_Init(void)
 }
 
 /**
-  * @brief USART2 Initialization Function
+  * @brief CRC Initialization Function
   * @param None
   * @retval None
   */
-static void MX_USART2_Init(void)
+static void MX_CRC_Init(void)
 {
 
-  /* USER CODE BEGIN USART2_Init 0 */
+  /* USER CODE BEGIN CRC_Init 0 */
 
-  /* USER CODE END USART2_Init 0 */
+  /* USER CODE END CRC_Init 0 */
 
-  /* USER CODE BEGIN USART2_Init 1 */
+  /* USER CODE BEGIN CRC_Init 1 */
 
-  /* USER CODE END USART2_Init 1 */
-  husart2.Instance = USART2;
-  husart2.Init.BaudRate = 115200;
-  husart2.Init.WordLength = USART_WORDLENGTH_8B;
-  husart2.Init.StopBits = USART_STOPBITS_1;
-  husart2.Init.Parity = USART_PARITY_NONE;
-  husart2.Init.Mode = USART_MODE_TX_RX;
-  husart2.Init.CLKPolarity = USART_POLARITY_LOW;
-  husart2.Init.CLKPhase = USART_PHASE_1EDGE;
-  husart2.Init.CLKLastBit = USART_LASTBIT_DISABLE;
-  if (HAL_USART_Init(&husart2) != HAL_OK)
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART2_Init 2 */
+  /* USER CODE BEGIN CRC_Init 2 */
 
-  /* USER CODE END USART2_Init 2 */
+  /* USER CODE END CRC_Init 2 */
+
+}
+
+/**
+  * @brief SPI1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI1_Init(void)
+{
+
+  /* USER CODE BEGIN SPI1_Init 0 */
+
+  /* USER CODE END SPI1_Init 0 */
+
+  /* USER CODE BEGIN SPI1_Init 1 */
+
+  /* USER CODE END SPI1_Init 1 */
+  /* SPI1 parameter configuration*/
+  hspi1.Instance = SPI1;
+  hspi1.Init.Mode = SPI_MODE_SLAVE;
+  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
+  hspi1.Init.FirstBit = SPI_FIRSTBIT_LSB;
+  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi1.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI1_Init 2 */
+
+  /* USER CODE END SPI1_Init 2 */
 
 }
 
@@ -301,7 +393,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
@@ -323,24 +417,41 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void MK_Processing(uint8_t *s)
+{
+	
+}
 void CAN1_Tx(void)
 {
 	CAN_TxHeaderTypeDef TxHeader;
 	
-	uint8_t StrTransmit[5] = {"HELLO"};
+	//uint8_t StrTransmit[5] = {"HELLO"};
 	
 	uint32_t TxMailBox;
+	uint8_t buf[8] = {0};
+	int k = 8;
 	
-	TxHeader.DLC = 5;
+	memcpy(buf, SPI_str_Rx, 8);
+	TxHeader.DLC = 8;
 	TxHeader.StdId = 0x001;
 	TxHeader.IDE = CAN_ID_STD;
 	TxHeader.RTR = CAN_RTR_DATA;
 	
-	if (HAL_CAN_AddTxMessage(&hcan1, &TxHeader, StrTransmit, &TxMailBox) != HAL_OK)
+	for (int i = 0; i < 3; i++)
 	{
-		Error_Handler();
+		if (HAL_CAN_AddTxMessage(&hcan1, &TxHeader, buf, &TxMailBox) != HAL_OK)
+		{
+			Error_Handler();
+		}
+		while (!End_receive)
+		HAL_Delay(100);	
+		for (int i = 0; i < 8 ; i++)
+		{
+			buf[i] = SPI_str_Rx[k];
+			k++;
+		}
+		End_receive = 1;
 	}
-	
 }
 /* USER CODE END 4 */
 

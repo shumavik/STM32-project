@@ -297,7 +297,7 @@ static void MX_USART1_Init(void)
   husart1.Init.Mode = USART_MODE_TX_RX;
   husart1.Init.CLKPolarity = USART_POLARITY_LOW;
   husart1.Init.CLKPhase = USART_PHASE_1EDGE;
-  husart1.Init.CLKLastBit = USART_LASTBIT_DISABLE;
+  husart1.Init.CLKLastBit = USART_LASTBIT_ENABLE;
   if (HAL_USART_Init(&husart1) != HAL_OK)
   {
     Error_Handler();
