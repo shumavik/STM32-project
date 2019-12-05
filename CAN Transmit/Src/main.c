@@ -50,7 +50,6 @@ CRC_HandleTypeDef hcrc;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-//uint8_t strReceive[5] = {0};
 uint8_t str_Tx[24] = {0};
 uint8_t str_Rx[24] = {0};
 uint8_t CAN_buf[8] = {0};
@@ -90,22 +89,16 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {	
 	HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, CAN_buf);
+	HAL_CAN_DeactivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 	for (int i = 0; i < 8; i++)
 	{
 		str_Rx[count] = CAN_buf[i];
 		count++;
 	}
-	if (count == 23)
+	if (count == 24)
 	{
-		//count = 0;
 		CAN_flag = 1;
 		count = 0;
-	/*
-	if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	*/
 	}
 	End_receive = 1;
 }
@@ -419,7 +412,15 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void MK_Processing(uint8_t *s)
 {
-	
+	uint8_t buf = 0;
+	int i = 19;
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		buf = s[i];
+		for (int j = 19; j > 0; j--)
+		s[j] = s[j-1];
+		s[0] = buf;
+	}
 }
 void CAN1_Tx(void)
 {
@@ -443,14 +444,15 @@ void CAN1_Tx(void)
 		{
 			Error_Handler();
 		}
-		while (!End_receive)
+		while (End_receive != 1)
 		HAL_Delay(100);	
+		HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
 		for (int i = 0; i < 8 ; i++)
 		{
 			buf[i] = SPI_str_Rx[k];
 			k++;
 		}
-		End_receive = 1;
+		End_receive = 0;
 	}
 }
 /* USER CODE END 4 */

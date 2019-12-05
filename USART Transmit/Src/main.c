@@ -328,7 +328,7 @@ void MK_Processing(uint8_t *s)
 {
 	uint8_t buf = 0;
 	for (int i = 19; i >= 0; i--)
-		if (s[i] >= '0' && s[i] <= '9')
+		if ((s[i] >= '0' && s[i] <= '9') || s[i] == 0)
 		{
 			buf = s[i];
 			for (int j = i; j < 19; j++)
