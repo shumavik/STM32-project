@@ -48,6 +48,8 @@ CRC_HandleTypeDef hcrc;
 
 SPI_HandleTypeDef hspi1;
 
+UART_HandleTypeDef huart2;
+
 /* USER CODE BEGIN PV */
 uint8_t str_Tx[24] = {0};
 uint8_t str_Rx[24] = {0};
@@ -62,6 +64,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_CRC_Init(void);
+static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 void MK_Processing(uint8_t *s); // Перевод в верхний регистр
 /* USER CODE END PFP */
@@ -73,6 +76,16 @@ void MK_Processing(uint8_t *s); // Перевод в верхний регист
 	HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, strReceive);
 	flag = 1;
 }*/
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart == &huart2)
+  {
+    if(huart2.RxXferCount == 0)
+    {
+			flag = 1;
+    }
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -82,8 +95,11 @@ void MK_Processing(uint8_t *s); // Перевод в верхний регист
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint32_t Message_CRC[5] = {0};
+	uint32_t Tx_Message_CRC[5] = {0};
+	uint32_t Rx_Message_CRC[6] = {0};
 	uint32_t CRC_Tx;
+	uint32_t CRC_Rx;
+	uint8_t UART_str_Rx[24] = {0};
   /* USER CODE END 1 */
   
 
@@ -108,6 +124,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USB_DEVICE_Init();
   MX_CRC_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 	// Настройка фильтра приема
 	/*sFilterConfig.FilterBank = 0; // Выбор банка (всего банков 14)
@@ -132,6 +149,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		HAL_UART_Receive_IT(&huart2, UART_str_Rx, 24);
 		if (USB_flag == 1)
 		{
 			HAL_Delay(100);
@@ -150,19 +168,47 @@ int main(void)
 						MK_Processing(str_Tx);
 						for (int i = 0, j = 0; i < 5; i++, j+=4)
 						{
-							Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
+							Tx_Message_CRC[i] = str_Tx[j+3] | (str_Tx[j+2] << 8) | (str_Tx[j+1] << 16) | (str_Tx[j] << 24);
 						}
-						CRC_Tx = HAL_CRC_Calculate(&hcrc, Message_CRC, 5);
+						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
 						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
 						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
 						HAL_SPI_Transmit(&hspi1, (uint8_t*) str_Tx, 24, 1500);
 				}
 			}
+			
+			// Обработка приема по UART и вывод префиксной строки
 			if (flag == 1)
 			{
-				HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-				HAL_Delay(2000);
-				HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+				// Подготовка к вычислению контрольной суммы принятого собщения
+				for (int i = 0, j = 0; i < 6; i++, j+=4)
+						{
+							Rx_Message_CRC[i] = UART_str_Rx[j+3] | (UART_str_Rx[j+2] << 8) | (UART_str_Rx[j+1] << 16) | (UART_str_Rx[j] << 24);
+						}
+				
+				CRC_Rx = HAL_CRC_Calculate(&hcrc, Rx_Message_CRC, 6); // Вычисление CRC принимаемого сообщения
+						
+				if (CRC_Rx == 0) // Если CRC(data+CRC) == 0, то ошибок при передаче не было
+				{
+						// Успешный прием
+						HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+						HAL_Delay(2000);
+						HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+					// Выводим в терминал принятую строку
+						CDC_Transmit_FS(UART_str_Rx, 20);
+						HAL_Delay(10);
+						CDC_Transmit_FS((uint8_t *) "\r\n",2);
+				}
+				else
+				{
+					for (int i = 0; i < 10; i++)
+					{
+						HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_15);
+						HAL_Delay(500);
+					}
+					HAL_Delay(10);
+					CDC_Transmit_FS((uint8_t *) "CRC NOT EQUALS\r\n",16);
+				}
 				flag = 0;
 			}
     /* USER CODE END WHILE */
@@ -204,11 +250,11 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -275,6 +321,39 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
 
 }
 

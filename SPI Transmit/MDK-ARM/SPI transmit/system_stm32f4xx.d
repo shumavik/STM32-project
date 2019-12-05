@@ -29,6 +29,7 @@ spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_h
 spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
+spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h
 spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 spi transmit\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h

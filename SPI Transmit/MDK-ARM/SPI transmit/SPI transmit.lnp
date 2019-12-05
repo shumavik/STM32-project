@@ -14,6 +14,7 @@
 "spi transmit\stm32f4xx_hal_spi.o"
 "spi transmit\stm32f4xx_hal_tim.o"
 "spi transmit\stm32f4xx_hal_tim_ex.o"
+"spi transmit\stm32f4xx_hal_uart.o"
 "spi transmit\stm32f4xx_hal_rcc.o"
 "spi transmit\stm32f4xx_hal_rcc_ex.o"
 "spi transmit\stm32f4xx_hal_flash.o"

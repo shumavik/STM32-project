@@ -26,7 +26,7 @@
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
-      <CLKADS>32000000</CLKADS>
+      <CLKADS>16000000</CLKADS>
       <OPTTT>
         <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
@@ -145,16 +145,16 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U-O142 -O2254 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F407VGTx$CMSIS\Flash\STM32F4xx_1024.FLM)</Name>
+          <Name>-U-O142 -O2254 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32F407VGTx$CMSIS\Flash\STM32F4xx_1024.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint>
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>147</LineNumber>
+          <LineNumber>206</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134231128</Address>
+          <Address>134233140</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -163,30 +163,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>../Src/main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\SPI_transmit\../Src/main.c\147</Expression>
+          <Expression>\\SPI_transmit\../Src/main.c\206</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>268</LineNumber>
+          <LineNumber>204</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218602</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Src/usbd_cdc_if.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\SPI_transmit\../Src/usbd_cdc_if.c\268</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>148</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134231204</Address>
+          <Address>134233144</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -195,23 +179,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>../Src/main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\SPI_transmit\../Src/main.c\148</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>149</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134231210</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Src/main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\SPI_transmit\../Src/main.c\149</Expression>
+          <Expression>\\SPI_transmit\../Src/main.c\204</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -244,6 +212,21 @@
           <count>5</count>
           <WinNumber>1</WinNumber>
           <ItemText>Len</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>huart2</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>UART_str_Rx</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Rx_Message_CRC</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -537,6 +520,18 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
+      <PathWithFileName>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</PathWithFileName>
+      <FilenameWithoutPath>stm32f4xx_hal_uart.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>17</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
       <PathWithFileName>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c</PathWithFileName>
       <FilenameWithoutPath>stm32f4xx_hal_rcc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -544,7 +539,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>17</FileNumber>
+      <FileNumber>18</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -556,7 +551,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>18</FileNumber>
+      <FileNumber>19</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -568,7 +563,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>19</FileNumber>
+      <FileNumber>20</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -580,7 +575,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>20</FileNumber>
+      <FileNumber>21</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -592,7 +587,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>21</FileNumber>
+      <FileNumber>22</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -604,7 +599,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>22</FileNumber>
+      <FileNumber>23</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -616,7 +611,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>23</FileNumber>
+      <FileNumber>24</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -628,7 +623,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>24</FileNumber>
+      <FileNumber>25</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -640,7 +635,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>25</FileNumber>
+      <FileNumber>26</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -652,7 +647,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>26</FileNumber>
+      <FileNumber>27</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -664,7 +659,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>27</FileNumber>
+      <FileNumber>28</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -676,7 +671,7 @@
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
-      <FileNumber>28</FileNumber>
+      <FileNumber>29</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -696,7 +691,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>4</GroupNumber>
-      <FileNumber>29</FileNumber>
+      <FileNumber>30</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -716,7 +711,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>30</FileNumber>
+      <FileNumber>31</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -728,7 +723,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>31</FileNumber>
+      <FileNumber>32</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -740,7 +735,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>32</FileNumber>
+      <FileNumber>33</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -752,7 +747,7 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>33</FileNumber>
+      <FileNumber>34</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

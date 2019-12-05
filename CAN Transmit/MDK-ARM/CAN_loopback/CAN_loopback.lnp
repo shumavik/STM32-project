@@ -15,6 +15,7 @@
 "can_loopback\stm32f4xx_hal_spi.o"
 "can_loopback\stm32f4xx_hal_tim.o"
 "can_loopback\stm32f4xx_hal_tim_ex.o"
+"can_loopback\stm32f4xx_hal_uart.o"
 "can_loopback\stm32f4xx_hal_rcc.o"
 "can_loopback\stm32f4xx_hal_rcc_ex.o"
 "can_loopback\stm32f4xx_hal_flash.o"

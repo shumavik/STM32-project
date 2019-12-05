@@ -49,6 +49,8 @@ CRC_HandleTypeDef hcrc;
 
 SPI_HandleTypeDef hspi1;
 
+UART_HandleTypeDef huart4;
+
 /* USER CODE BEGIN PV */
 uint8_t str_Tx[24] = {0};
 uint8_t str_Rx[24] = {0};
@@ -69,6 +71,7 @@ static void MX_GPIO_Init(void);
 static void MX_CAN1_Init(void);
 static void MX_CRC_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_UART4_Init(void);
 /* USER CODE BEGIN PFP */
 void CAN1_Tx(void);
 void MK_Processing(uint8_t *s); // Перевод в префиксный код
@@ -140,6 +143,7 @@ int main(void)
   MX_CRC_Init();
   MX_SPI1_Init();
   MX_USB_DEVICE_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 	// Настройка фильтра приема
 	sFilterConfig.FilterBank = 0; // Выбор банка (всего банков 14)
@@ -166,8 +170,6 @@ int main(void)
 		HAL_SPI_Receive_IT(&hspi1, SPI_str_Rx, 24);
 		if (flag == 1)
 		{
-			//HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
-			//HAL_Delay(500);
 			CAN1_Tx(); // Передача по CAN
 			flag = 0;
 		}
@@ -214,7 +216,7 @@ int main(void)
 						CRC_Tx = HAL_CRC_Calculate(&hcrc, Tx_Message_CRC, 5);
 						for (int i = 20, j = 24; i < 24 ; i++, j-=8)
 						str_Tx[i] = (uint8_t)( CRC_Tx >> j);
-						//HAL_USART_Transmit(&husart1, str_Tx, 24, 1500);
+						HAL_UART_Transmit(&huart4, str_Tx, 24, 1500);
 				}
 				else
 				{
@@ -377,6 +379,39 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief UART4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART4_Init(void)
+{
+
+  /* USER CODE BEGIN UART4_Init 0 */
+
+  /* USER CODE END UART4_Init 0 */
+
+  /* USER CODE BEGIN UART4_Init 1 */
+
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 115200;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART4_Init 2 */
+
+  /* USER CODE END UART4_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -388,6 +423,7 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
